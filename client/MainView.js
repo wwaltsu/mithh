@@ -1,14 +1,12 @@
-import m from 'mithril';
+import m from 'mithril'
+import './style.css'
 
-export function MainView({ attrs }) {
-    
-  const view = function() {
+export const MainView = {
+  view: function () {
     const divList = []
-    for (let i = 0; i < 10000; i++) {
-      divList.push(m("div", "div numero: " + i))
+    for (let i = 1; i <= 10000; i++) {
+      divList.push(m("div", { "class": "itembox" }, "div numero: " + i))
     }
-    return m("div", divList)
+    return m("div.container", divList)
   }
-  
-  return { view }; // Return the view function as a property of an object
 }

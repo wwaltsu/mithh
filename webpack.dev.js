@@ -1,37 +1,42 @@
-const path = require('path');
-require('dotenv').config({ path: path.resolve(process.cwd(), '.env.development') });
-require('dotenv').config();
-const webpack = require('webpack');
+const path = require('path')
+require('dotenv').config({ path: path.resolve(process.cwd(), '.env.development') })
+require('dotenv').config()
+const webpack = require('webpack')
 
-const port = 8020;
-const openBrowser = true;
-const babel = true;
+const port = 8020
+const openBrowser = true
+const babel = true
 
 // inject envs
-let plugins = [];
-let envs = {};
+let plugins = []
+let envs = {}
 Object.keys(process.env).filter(key => key.startsWith('MITHRIL_')).forEach(key => {
-  envs[key] = JSON.stringify(process.env[key]);
-});
-plugins.push(new webpack.DefinePlugin(envs));
+  envs[key] = JSON.stringify(process.env[key])
+})
+plugins.push(new webpack.DefinePlugin(envs))
 
-let app = ['./client/index.js'];
-let rules = [];
+let app = ['./client/index.js']
+let rules = []
 if (babel) {
-  // app.unshift('@babel/polyfill');
-  rules.push({
-    test: /\.js$/,
-    exclude: /node_modules/,
-    use: {
-      loader: 'babel-loader',
-      options: {
-        presets: ['@babel/preset-env'],
-        plugins: ['@babel/plugin-proposal-object-rest-spread',
-          ['@babel/plugin-transform-react-jsx',{"pragma": "m"}]
-        ],
+  rules = [
+    {
+      test: /\.js$/,
+      exclude: /node_modules/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-env'],
+          plugins: ['@babel/plugin-proposal-object-rest-spread',
+            ['@babel/plugin-transform-react-jsx', { "pragma": "m" }]
+          ],
+        },
       },
     },
-  });
+    {
+      test: /\.css$/,
+      use: ['style-loader', 'css-loader'],
+    },
+  ]
 }
 
 module.exports = {
@@ -60,4 +65,4 @@ module.exports = {
   module: {
     rules: rules,
   },
-};
+}
