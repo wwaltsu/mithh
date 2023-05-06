@@ -1,7 +1,17 @@
-// Babel has deprecated @babel/polyfill, and the following two imports are used for polyfills instead.
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
-import m from 'mithril';
-import { MainView } from './MainView';
+import m, { mount } from "mithril"
+import { TargetList } from "./TargetList"
 
-m.mount(document.body, MainView);
+
+const root = document.body
+
+function MainComponent() {
+  return {
+    view: () => {
+      return m("div", { "class": ".container" }, [
+        m(TargetList)
+      ])
+    }
+  }
+}
+
+mount(root, MainComponent)
